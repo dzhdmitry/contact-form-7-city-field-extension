@@ -64,7 +64,6 @@ add_action( 'plugins_loaded', 'wpcf7_cityfieldtext_init' , 20 );
 * CityFieldText Shortcode
 */
 function wpcf7_cityfieldtext_shortcode_handler( $tag ) {
-	
 	$wpcf7_contact_form = WPCF7_ContactForm::get_current();
 
 	if ( ! is_array( $tag ) )
@@ -79,15 +78,13 @@ function wpcf7_cityfieldtext_shortcode_handler( $tag ) {
 		return '';
 
 	$atts = '';
-	$class_att = '';
+	$class_att = 'wpcf7-autocomplete wpcf7-text';
 	$size_att = '';
 	$maxlength_att = '';
 	$tabindex_att = '';
 	$placeholder = '';
-	$aria='';
-
-	$class_att .= ' wpcf7-text';
-	$id_att = 'autocomplete';
+	$aria = '';
+	$id_att = '';
 
 	if ( 'cityfieldtext*' == $type ) {
 		$class_att .= ' wpcf7-validates-as-required';
@@ -97,25 +94,22 @@ function wpcf7_cityfieldtext_shortcode_handler( $tag ) {
 	foreach ( $options as $option ) {
 		if ( preg_match( '%^class:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
 			$class_att .= ' ' . $matches[1];
-
 		} elseif ( preg_match( '%^([0-9]*)[/x]([0-9]*)$%', $option, $matches ) ) {
 			$size_att = (int) $matches[1];
 			$maxlength_att = (int) $matches[2];
-
 		} elseif ( preg_match( '%^tabindex:(\d+)$%', $option, $matches ) ) {
 			$tabindex_att = (int) $matches[1];
-
 		} elseif ( preg_match( '%^placeholder:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
 			$placeholder = $matches[1];
-
+		} elseif ( preg_match( '%^id:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
+			$id_att = $matches[1];
 		}
 	}
 
 	if ( $id_att )
 		$atts .= ' id="' . trim( $id_att ) . '"';
 
-	if ( $class_att )
-		$atts .= ' class="' . trim( $class_att ) . '"';
+	$atts .= ' class="' . trim( $class_att ) . '"';
 
 	if ( $size_att )
 		$atts .= ' size="' . $size_att . '"';
@@ -141,13 +135,15 @@ function wpcf7_cityfieldtext_shortcode_handler( $tag ) {
 	if($scval != '['.$value.']') $value = $scval;
 	
 	$readonly = '';
-	if(in_array('uneditable', $options)){
+
+	if (in_array('uneditable', $options)) {
 		$readonly = 'readonly="readonly"';
 	}
 
 	$html = '<input type="text" aria-required="' . $aria . '" placeholder="' . $placeholder . '" name="' . $name . '" value="' . esc_attr( $value ) . '"' . $atts . ' '. $readonly.' />';
 
 	$validation_error = '';
+
 	if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) )
 		$validation_error = $wpcf7_contact_form->validation_error( $name );
 
@@ -213,6 +209,13 @@ function wpcf7_tg_pane_cityfieldtext( $type = 'cityfieldtext' ) {
 
 			<table>
 				<tr>
+					<td colspan="2">
+						<code>id</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
+						<input type="text" name="id" class="idvalue oneline option" />
+					</td>
+				</tr>
+
+				<tr>
 					<td>
 						<code>class</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
 						<input type="text" name="class" class="classvalue oneline option" />
@@ -256,6 +259,7 @@ function wpcf7_tg_pane_cityfieldtext( $type = 'cityfieldtext' ) {
 * CityFieldText Welcome panel
 */
 add_action( 'wpcf7_admin_notices', 'wpcf17_welcome_panel', 2 );
+
 function wpcf17_welcome_panel() {
 	global $plugin_page;
 
