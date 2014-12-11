@@ -79,7 +79,6 @@ function wpcf7_cityfieldtext_shortcode_handler( $tag ) {
 		return '';
 
 	$atts = '';
-	$id_att = '';
 	$class_att = '';
 	$size_att = '';
 	$maxlength_att = '';
@@ -183,51 +182,73 @@ function wpcf7_cityfieldtext_validation_filter( $result, $tag ) {
 * CityFieldText Tag generator
 */
 function wpcf7_add_tag_generator_cityfieldtext() {
-	if(function_exists('wpcf7_add_tag_generator')){
+	if (function_exists('wpcf7_add_tag_generator')) {
 		wpcf7_add_tag_generator( 'cityfieldtext', __( 'City Text Field', 'wpcf7' ),
 			'wpcf7-tg-pane-cityfieldtext', 'wpcf7_tg_pane_cityfieldtext_' );
 	}
 }
 
-function wpcf7_tg_pane_cityfieldtext_( &$contact_form ) {
+function wpcf7_tg_pane_cityfieldtext_( $contact_form ) {
 	wpcf7_tg_pane_cityfieldtext( 'cityfieldtext' );
 }
 
 function wpcf7_tg_pane_cityfieldtext( $type = 'cityfieldtext' ) {
 ?>
-<div id="wpcf7-tg-pane-<?php echo $type; ?>" class="hidden">
-<form action="">
-<table>
-<tr><td><input type="checkbox" name="required" />&nbsp;<?php echo esc_html( __( 'Required field?', 'contact-form-7' ) ); ?></td></tr>
-<tr><td><?php echo esc_html( __( 'Name', 'contact-form-7' ) ); ?><br /><input type="text" name="name" class="tg-name oneline" /></td><td></td></tr>
-</table>
+	<div id="wpcf7-tg-pane-<?php echo $type; ?>" class="hidden">
+		<form action="">
+			<table>
+				<tr>
+					<td>
+						<input type="checkbox" name="required" />&nbsp;<?php echo esc_html( __( 'Required field?', 'contact-form-7' ) ); ?>
+					</td>
+				</tr>
 
-<table>
-<tr>
+				<tr>
+					<td>
+						<?php echo esc_html( __( 'Name', 'contact-form-7' ) ); ?><br />
+						<input type="text" name="name" class="tg-name oneline" />
+					</td>
+				</tr>
+			</table>
 
-<td><code>class</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
-<input type="text" name="class" class="classvalue oneline option" /></td>
-</tr>
+			<table>
+				<tr>
+					<td>
+						<code>class</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
+						<input type="text" name="class" class="classvalue oneline option" />
+					</td>
 
-<tr>
-<td><code>size</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
-<input type="text" name="size" class="numeric oneline option" /></td>
+					<td>
+						<code>placeholder</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
+						<input type="text" name="placeholder" class="value oneline option" />
+					</td>
+				</tr>
 
-<td><code>maxlength</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
-<input type="text" name="maxlength" class="numeric oneline option" /></td>
-</tr>
+				<tr>
+					<td>
+						<code>size</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
+						<input type="text" name="size" class="numeric oneline option" />
+					</td>
 
-<td><code>placeholder</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
-<input type="text" name="placeholder" class="value oneline option" /></td>
-</tr>
+					<td>
+						<code>maxlength</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
+						<input type="text" name="maxlength" class="numeric oneline option" />
+					</td>
+				</tr>
 
-</table>
+			</table>
 
-<div class="tg-tag"><?php echo esc_html( __( "Copy this code and paste it into the form left.", 'contact-form-7' ) ); ?><br /><input type="text" name="<?php echo $type; ?>" class="tag wp-ui-text-highlight code" readonly="readonly" onfocus="this.select()" /></div>
+			<div class="tg-tag">
+				<?php echo esc_html( __( "Copy this code and paste it into the form left.", 'contact-form-7' ) ); ?><br />
+				<input type="text" name="<?php echo $type; ?>" class="tag wp-ui-text-highlight code" readonly="readonly" onfocus="this.select()" />
+			</div>
 
-<div class="tg-mail-tag"><?php echo esc_html( __( "And, put this code into the Mail fields below.", 'contact-form-7' ) ); ?><br /><input type="text" class="mail-tag wp-ui-text-highlight code" readonly="readonly" onfocus="this.select()" /></div>
-</form>
-</div>
+			<div class="tg-mail-tag">
+				<?php echo esc_html( __( "And, put this code into the Mail fields below.", 'contact-form-7' ) ); ?><br />
+				<input type="text" class="mail-tag wp-ui-text-highlight code" readonly="readonly" onfocus="this.select()" />
+			</div>
+		</form>
+	</div>
 <?php
 }
 
@@ -250,7 +271,6 @@ function wpcf17_welcome_panel() {
 	if ( wpcf7_version_grep( wpcf7_version( 'only_major=1' ), $vers ) ) {
 		$classes .= ' hidden';
 	}
-
 ?>
 <div id="welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
 	<?php wp_nonce_field( 'wpcf7-welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
@@ -260,10 +280,15 @@ function wpcf17_welcome_panel() {
 		<div class="welcome-panel-container">
 			<div class="welcome-panel-column">
 				<h4><?php echo esc_html( __( 'City Field Extension for Contact Form 7 Needs Your Support', 'contact-form-7' ) ); ?></h4>
-				<p class="message"><?php echo esc_html( __( "If you enjoy using City Field Extension for Contact Form 7 and find it useful, please consider making a donation.", 'contact-form-7' ) ); ?></p>
-				<p><a href="<?php echo esc_url( __( 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PKMBP2CF3M8SQ', 'contact-form-7' ) ); ?>" class="button button-paky" target="_blank"><?php echo esc_html( __( 'Donate', 'contact-form-7' ) ); ?></a></p>
-			</div>
 
+				<p class="message">
+					<?php echo esc_html( __( "If you enjoy using City Field Extension for Contact Form 7 and find it useful, please consider making a donation.", 'contact-form-7' ) ); ?>
+				</p>
+
+				<p>
+					<a href="<?php echo esc_url( __( 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PKMBP2CF3M8SQ', 'contact-form-7' ) ); ?>" class="button button-paky" target="_blank"><?php echo esc_html( __( 'Donate', 'contact-form-7' ) ); ?></a>
+				</p>
+			</div>
 		</div>
 	</div>
 </div>
