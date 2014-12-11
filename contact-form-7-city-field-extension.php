@@ -222,8 +222,8 @@ function wpcf7_tg_pane_cityfieldtext( $type = 'cityfieldtext' ) {
 					</td>
 
 					<td>
-						<a href="https://developers.google.com/maps/documentation/javascript/reference#AutocompleteOptions" target="_blank"><code>data-type</code></a>
-						(<?php echo esc_html(__('optional', 'contact-form-7')); ?>, <?php echo esc_html(__('default value', 'contact-form-7')); ?>: <code>(cities)</code>)<br />
+						<a href="https://developers.google.com/maps/documentation/javascript/reference#AutocompleteOptions" target="_blank"><code>data-type</code></a> without brackets
+						(<?php echo esc_html(__('optional', 'contact-form-7')); ?>, <?php echo esc_html(__('default value', 'contact-form-7')); ?>: <code>cities</code>)<br />
 						<input type="text" name="type" class="oneline option" />
 					</td>
 				</tr>
@@ -251,7 +251,6 @@ function wpcf7_tg_pane_cityfieldtext( $type = 'cityfieldtext' ) {
 						<input type="text" name="maxlength" class="numeric oneline option" />
 					</td>
 				</tr>
-
 			</table>
 
 			<div class="tg-tag">
