@@ -85,6 +85,7 @@ function wpcf7_cityfieldtext_shortcode_handler( $tag ) {
 	$placeholder = '';
 	$aria = '';
 	$id_att = '';
+	$type_attr = '';
 
 	if ( 'cityfieldtext*' == $type ) {
 		$class_att .= ' wpcf7-validates-as-required';
@@ -103,11 +104,17 @@ function wpcf7_cityfieldtext_shortcode_handler( $tag ) {
 			$placeholder = $matches[1];
 		} elseif ( preg_match( '%^id:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
 			$id_att = $matches[1];
+		} elseif ( preg_match( '%^type:([-0-9a-zA-Z_\(\)]+)$%', $option, $matches ) ) {
+			$type_attr = $matches[1];
 		}
 	}
 
 	if ( $id_att )
 		$atts .= ' id="' . trim( $id_att ) . '"';
+
+	if ($type_attr) {
+		$atts .= ' data-type="' . trim( $type_attr ) . '"';
+	}
 
 	$atts .= ' class="' . trim( $class_att ) . '"';
 
@@ -209,9 +216,15 @@ function wpcf7_tg_pane_cityfieldtext( $type = 'cityfieldtext' ) {
 
 			<table>
 				<tr>
-					<td colspan="2">
+					<td>
 						<code>id</code> (<?php echo esc_html( __( 'optional', 'contact-form-7' ) ); ?>)<br />
 						<input type="text" name="id" class="idvalue oneline option" />
+					</td>
+
+					<td>
+						<a href="https://developers.google.com/maps/documentation/javascript/reference#AutocompleteOptions" target="_blank"><code>data-type</code></a>
+						(<?php echo esc_html(__('optional', 'contact-form-7')); ?>, <?php echo esc_html(__('default value', 'contact-form-7')); ?>: <code>(cities)</code>)<br />
+						<input type="text" name="type" class="oneline option" />
 					</td>
 				</tr>
 
