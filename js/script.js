@@ -12,7 +12,6 @@ window.onload = function initialize_pfce() {
             ac_type = "(" + ac_type + ")";
         }
 
-        console.log(ac_type);
         return new google.maps.places.Autocomplete(element, { types: [ac_type] });
     }
 
